@@ -1219,8 +1219,9 @@
             be inside the build.
           </p>
 
-          <form class="nl-form" id="nl-form" novalidate>
-            <input type="email" class="nl-input" placeholder="your@email.com" required aria-label="Email address" />
+          <form class="nl-form" id="nl-form" action="https://air2energy.us8.list-manage.com/subscribe/post?u=f9d5cc71b4c42cc68c0c5a8eb&amp;id=341ad8d773&amp;f_id=000f64e0f0" method="post" target="_blank" novalidate>
+            <input type="email" class="nl-input" name="EMAIL" placeholder="your@email.com" required aria-label="Email address" />
+            <input type="hidden" name="b_f9d5cc71b4c42cc68c0c5a8eb_341ad8d773" value="">
             <button type="submit" class="nl-submit">Subscribe</button>
           </form>
           <p class="nl-success" id="nl-success">Thanks — we'll be in touch soon.</p>
@@ -1310,20 +1311,6 @@
       els.forEach(function(el) { io.observe(el); });
     })();
 
-    (function() {
-      var form = document.getElementById('nl-form');
-      var success = document.getElementById('nl-success');
-      if (!form) return;
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var input = form.querySelector('input[type=email]');
-        if (input && input.value && input.value.indexOf('@') > -1) {
-          input.value = '';
-          success.classList.add('show');
-          setTimeout(function() { success.classList.remove('show'); }, 4000);
-        }
-      });
-    })();
 
     (function() {
       var btn = document.querySelector('.play-button');
