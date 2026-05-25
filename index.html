@@ -700,16 +700,15 @@
       width: 100%;
       aspect-ratio: 4 / 3;
       border-radius: var(--radius);
-      background: linear-gradient(135deg, var(--c-soft), #8db1b3);
       margin-bottom: 1.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(33, 38, 49, 0.45);
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      overflow: hidden;
+    }
+    .founder-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
     }
     .founder-role {
       font-family: var(--font-mono);
@@ -1237,7 +1236,7 @@
 
         <div class="founder-grid">
           <div class="founder-card reveal">
-            <div class="founder-photo">Founder portrait</div>
+            <div class="founder-photo"><img src="headshots/AndyHeadshot.png" alt="Andy Smithyman" /></div>
             <div class="founder-role">Co-founder &amp; CEO</div>
             <h3>Andy Smithyman</h3>
             <p class="founder-bio">
@@ -1248,7 +1247,7 @@
           </div>
 
           <div class="founder-card reveal">
-            <div class="founder-photo">Founder portrait</div>
+            <div class="founder-photo"><img src="headshots/Kirahheadshot.png" alt="Kirah Godsell" /></div>
             <div class="founder-role">Co-founder</div>
             <h3>Kirah Godsell</h3>
             <p class="founder-bio">
