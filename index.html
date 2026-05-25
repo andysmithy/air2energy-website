@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Air2Energy — Turning pollution into power</title>
+  <meta name="description" content="We capture CO₂ from commercial gas boiler exhaust and convert it into electricity. Decarbonisation that pays you back." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       Reset + tokens
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c-teal:        #064942;
+      --c-green:       #4AA67F;
+      --c-soft:        #BBCFD0;
+      --c-navy:        #212631;
+      --c-cream:       #F6F6F6;
+      --c-white:       #FFFFFF;
+
+      --c-text-dark:   #212631;
+      --c-text-muted:  #5b6066;
+      --c-text-light:  #F6F6F6;
+      --c-text-soft:   #BBCFD0;
+
+      --font-display:  'Geist', system-ui, sans-serif;
+      --font-body:     'Geist', system-ui, sans-serif;
+      --font-mono:     'Geist Mono', ui-monospace, 'SF Mono', monospace;
+
+      --max-w:         1280px;
+      --pad:           clamp(1.5rem, 4vw, 4rem);
+      --section-y:     clamp(5rem, 9vw, 8.5rem);
+      --radius:        14px;
+      --radius-lg:     22px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      color: var(--c-text-dark);
+      background: var(--c-cream);
+      line-height: 1.55;
+      letter-spacing: -0.005em;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    img, svg, video { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; background: none; border: none; color: inherit; }
+    input { font: inherit; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* =========================================================
+       Layout
+       ========================================================= */
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--pad); }
+    .section { padding: var(--section-y) 0; }
+
+    /* =========================================================
+       Typography
+       ========================================================= */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    h1 { font-size: clamp(2.6rem, 6.2vw, 5.4rem); letter-spacing: -0.045em; }
+    h2 { font-size: clamp(2rem, 4.4vw, 3.4rem); }
+    h3 { font-size: clamp(1.3rem, 2vw, 1.65rem); letter-spacing: -0.03em; }
+    h4 { font-size: clamp(1.05rem, 1.5vw, 1.2rem); font-weight: 500; letter-spacing: -0.02em; }
+
+    p { font-size: clamp(1rem, 1.08vw, 1.075rem); line-height: 1.65; }
+    .lead { font-size: clamp(1.1rem, 1.3vw, 1.25rem); line-height: 1.55; font-weight: 400; letter-spacing: -0.01em; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+    .eyebrow .num {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      letter-spacing: 0;
+    }
+
+    /* =========================================================
+       Buttons
+       ========================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.95rem 1.5rem;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .btn svg { width: 16px; height: 16px; transition: transform 0.25s ease; }
+    .btn:hover svg { transform: translateX(3px); }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary { background: var(--c-green); color: var(--c-white); }
+    .btn-primary:hover { background: #3e9670; }
+
+    .btn-light { background: var(--c-cream); color: var(--c-teal); }
+    .btn-light:hover { background: var(--c-white); }
+
+    .btn-ghost-light { color: var(--c-cream); border-color: rgba(246, 246, 246, 0.35); }
+    .btn-ghost-light:hover { border-color: var(--c-cream); }
+
+    .btn-ghost-dark { color: var(--c-teal); border-color: rgba(6, 73, 66, 0.3); }
+    .btn-ghost-dark:hover { border-color: var(--c-teal); background: rgba(6, 73, 66, 0.05); }
+
+    /* =========================================================
+       Navigation
+       ========================================================= */
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 1.5rem 0;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      color: var(--c-cream);
+    }
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 2.25rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--c-text-soft);
+      transition: color 0.2s ease;
+      letter-spacing: -0.005em;
+    }
+    .nav-links a:hover { color: var(--c-cream); }
+    .nav-cta { display: none; }
+    @media (min-width: 880px) {
+      .nav-links { display: flex; }
+      .nav-cta { display: inline-flex; }
+    }
+
+    /* =========================================================
+       Hero
+       ========================================================= */
+    .hero {
+      position: relative;
+      background: var(--c-teal);
+      color: var(--c-text-light);
+      padding-top: clamp(7rem, 13vw, 9rem);
+      padding-bottom: clamp(4rem, 7vw, 6rem);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top right, rgba(74, 166, 127, 0.15), transparent 55%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: clamp(2.5rem, 4vw, 4rem);
+    }
+
+    .hero-top { max-width: 820px; }
+    .hero-eyebrow { color: var(--c-text-soft); margin-bottom: 1.75rem; }
+    .hero h1 { margin-bottom: 1.5rem; }
+    .hero h1 .accent { color: var(--c-green); }
+    .hero-sub {
+      max-width: 640px;
+      color: rgba(246, 246, 246, 0.78);
+      font-size: clamp(1.05rem, 1.3vw, 1.2rem);
+      line-height: 1.55;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    /* Video block */
+    .video-wrap { position: relative; }
+    .video-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: linear-gradient(135deg, #0a5e55 0%, #043831 60%, #021f1b 100%);
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.5), 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+    }
+    .video-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 22% 30%, rgba(74, 166, 127, 0.35), transparent 40%),
+        radial-gradient(circle at 78% 70%, rgba(187, 207, 208, 0.18), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(6, 73, 66, 0.1), transparent 60%);
+    }
+    .video-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.012) 0 2px,
+          transparent 2px 4px
+        );
+      pointer-events: none;
+    }
+    .video-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      z-index: 2;
+    }
+    .play-button {
+      width: clamp(64px, 9vw, 92px);
+      height: clamp(64px, 9vw, 92px);
+      border-radius: 50%;
+      background: var(--c-green);
+      color: var(--c-white);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .play-button:hover { transform: scale(1.07); background: #5cb38c; }
+    .play-button svg { width: 38%; height: 38%; margin-left: 4%; }
+
+    .video-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-text-soft);
+    }
+    .video-watermark {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.75rem;
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: rgba(246, 246, 246, 0.3);
+      letter-spacing: -0.04em;
+    }
+
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1.25rem;
+      color: var(--c-text-soft);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      letter-spacing: 0.02em;
+    }
+    .video-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0.6; }
+    .video-meta .duration { margin-left: auto; }
+
+    /* =========================================================
+       Partners strip
+       ========================================================= */
+    .partners {
+      background: var(--c-cream);
+      padding: 2.75rem 0;
+      border-bottom: 1px solid rgba(33, 38, 49, 0.07);
+    }
+    .partners-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(1.25rem, 4vw, 3rem);
+    }
+    .partners-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--c-text-muted);
+    }
+    .partner-logo {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--c-navy);
+      opacity: 0.55;
+      letter-spacing: -0.02em;
+      transition: opacity 0.2s ease;
+    }
+    .partner-logo:hover { opacity: 0.9; }
+
+    /* =========================================================
+       Problem section
+       ========================================================= */
+    .problem { background: var(--c-cream); }
+    .problem-grid {
+      display: grid;
+      gap: clamp(2rem, 4vw, 4rem);
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+    @media (min-width: 880px) {
+      .problem-grid { grid-template-columns: 1.45fr 1fr; }
+    }
+    .problem h2 { margin-bottom: 1.5rem; color: var(--c-navy); }
+    .problem h2 .green { color: var(--c-green); }
+    .problem p { color: var(--c-text-muted); margin-bottom: 1.1rem; }
+    .problem-emph {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--c-teal);
+      font-size: 1.1rem;
+      letter-spacing: -0.015em;
+      margin-top: 1.25rem;
+    }
+
+    .stat-card {
+      background: var(--c-teal);
+      color: var(--c-cream);
+      padding: clamp(2rem, 3vw, 3rem);
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 90% 10%, rgba(74, 166, 127, 0.22), transparent 50%);
+      pointer-events: none;
+    }
+    .stat-card .num {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(3.5rem, 7vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+    .stat-card .num .small {
+      font-size: 0.5em;
+      color: var(--c-green);
+      vertical-align: top;
+      margin-left: 0.05em;
+    }
+    .stat-card .label {
+      margin-top: 1rem;
+      color: var(--c-text-soft);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .stat-card .src {
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(187, 207, 208, 0.55);
+    }
+
+    /* =========================================================
+       Technology section
+       ========================================================= */
+    .technology {
+      background: var(--c-teal);
+      color: var(--c-text-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .technology::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(74, 166, 127, 0.12), transparent 60%);
+      pointer-events: none;
+    }
+    .technology .eyebrow { color: var(--c-text-soft); }
+    .technology h2 { max-width: 18ch; margin: 1.5rem 0 1rem; }
+    .technology .lead { color: rgba(246, 246, 246, 0.78); max-width: 60ch; margin-bottom: 4rem; }
+
+    .steps {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;
+      position: relative;
+      z-index: 1;
+    }
+    @media (min-width: 760px) {
+      .steps { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    }
+    .step {
+      padding: 2rem 1.75rem 2.25rem;
+      border-radius: var(--radius);
+      background: rgba(246, 246, 246, 0.04);
+      border: 1px solid rgba(187, 207, 208, 0.15);
+      position: relative;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    }
+    .step:hover {
+      border-color: rgba(74, 166, 127, 0.5);
+      background: rgba(246, 246, 246, 0.06);
+      transform: translateY(-3px);
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--c-green);
+      margin-bottom: 1.75rem;
+    }
+    .step h3 { font-size: 1.45rem; margin-bottom: 0.75rem; }
+    .step p { color: var(--c-text-soft); font-size: 0.95rem; line-height: 1.6; }
+
+    .schematic {
+      margin-top: 4rem;
+      aspect-ratio: 21 / 9;
+      width: 100%;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(135deg, rgba(74, 166, 127, 0.12), rgba(6, 73, 66, 0.5)),
+        repeating-linear-gradient(45deg, rgba(187, 207, 208, 0.04) 0 2px, transparent 2px 14px);
+      border: 1px solid rgba(187, 207, 208, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: var(--c-text-soft);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 2rem;
+    }
+    .schematic .schematic-label {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--c-cream);
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .schematic .schematic-note {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(187, 207, 208, 0.5);
+    }
+
+    /* =========================================================
+       Applications
+       ========================================================= */
+    .applications { background: var(--c-cream); }
+    .applications-head { max-width: 760px; margin-bottom: clamp(2.5rem, 4vw, 4rem); }
+    .applications-head h2 { margin: 1.5rem 0 1.25rem; }
+    .applications-head p { color: var(--c-text-muted); font-size: 1.1rem; max-width: 56ch; }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    @media (min-width: 760px) {
+      .app-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .app-card {
+      background: var(--c-white);
+      border-radius: var(--radius);
+      padding: 2rem 1.75rem 2.25rem;
+      border: 1px solid rgba(33, 38, 49, 0.07);
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .app-card:hover {
+      border-color: var(--c-green);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -10px rgba(6, 73, 66, 0.12);
+    }
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: rgba(74, 166, 127, 0.12);
+      color: var(--c-teal);
+      margin-bottom: 1.5rem;
+    }
+    .app-icon svg { width: 24px; height: 24px; }
+    .app-card h3 { color: var(--c-navy); margin-bottom: 0.75rem; }
+    .app-card p { color: var(--c-text-muted); font-size: 0.95rem; }
+
+    /* =========================================================
+       Pilot section
+       ========================================================= */
+    .pilot { background: var(--c-teal); color: var(--c-text-light); }
+    .pilot .eyebrow { color: var(--c-text-soft); margin-bottom: 1.5rem; }
+    .pilot h2 { max-width: 16ch; margin-bottom: 3rem; }
+
+    .pilot-grid {
+      display: grid;
+      gap: clamp(2rem, 4vw, 3.5rem);
+      grid-template-columns: 1fr;
+      align-items: center;
+    }
+    @media (min-width: 880px) {
+      .pilot-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .pilot-image {
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(135deg, rgba(187, 207, 208, 0.18), rgba(6, 73, 66, 0.5)),
+        repeating-linear-gradient(135deg, rgba(187, 207, 208, 0.04) 0 2px, transparent 2px 12px);
+      border: 1px solid rgba(187, 207, 208, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      color: var(--c-text-soft);
+      font-size: 0.85rem;
+    }
+    .pilot-content .pilot-meta {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-green);
+      margin-bottom: 1rem;
+    }
+    .pilot-content h3 {
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      margin-bottom: 1.5rem;
+      color: var(--c-cream);
+    }
+    .pilot-content p { color: var(--c-text-soft); line-height: 1.65; margin-bottom: 1.5rem; }
+    .pilot-quote {
+      margin-top: 2rem;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--c-green);
+    }
+    .pilot-quote .quote-text {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+      line-height: 1.45;
+      letter-spacing: -0.025em;
+      color: var(--c-cream);
+      margin-bottom: 0.75rem;
+    }
+    .pilot-quote .quote-attr {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      color: var(--c-text-soft);
+    }
+
+    .mini-quotes {
+      margin-top: 4rem;
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 760px) {
+      .mini-quotes { grid-template-columns: repeat(3, 1fr); }
+    }
+    .mini-quote {
+      padding: 1.5rem 1.5rem 1.75rem;
+      border: 1px solid rgba(187, 207, 208, 0.15);
+      border-radius: var(--radius);
+      background: rgba(246, 246, 246, 0.04);
+    }
+    .mini-quote .qmark {
+      color: var(--c-green);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 2rem;
+      line-height: 0.7;
+      margin-bottom: 0.75rem;
+    }
+    .mini-quote .q-body {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      letter-spacing: -0.015em;
+      color: var(--c-cream);
+      margin-bottom: 1rem;
+    }
+    .mini-quote .q-attr {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--c-text-soft);
+    }
+
+    /* =========================================================
+       Founders
+       ========================================================= */
+    .founders { background: var(--c-cream); }
+    .founders-head { max-width: 820px; margin-bottom: clamp(2.5rem, 4vw, 4rem); }
+    .founders-head h2 { margin: 1.25rem 0 1.5rem; color: var(--c-navy); }
+    .founders-head p { color: var(--c-text-muted); font-size: 1.1rem; max-width: 60ch; line-height: 1.7; margin-bottom: 1rem; }
+    .founders-head p:last-child { color: var(--c-teal); font-weight: 500; }
+
+    .founder-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 760px) {
+      .founder-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    .founder-card {
+      background: var(--c-white);
+      border: 1px solid rgba(33, 38, 49, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .founder-card:hover {
+      border-color: var(--c-green);
+      box-shadow: 0 12px 24px -10px rgba(6, 73, 66, 0.1);
+    }
+    .founder-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--c-soft), #8db1b3);
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(33, 38, 49, 0.45);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .founder-role {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--c-green);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .founder-card h3 { color: var(--c-navy); margin-bottom: 1rem; }
+    .founder-bio { color: var(--c-text-muted); font-size: 0.97rem; line-height: 1.65; }
+
+    /* =========================================================
+       Team & advisors
+       ========================================================= */
+    .team { background: var(--c-cream); padding-top: 0; }
+    .team-block { margin-bottom: 4rem; }
+    .team-block:last-child { margin-bottom: 0; }
+    .team-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-text-muted);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(33, 38, 49, 0.1);
+    }
+    .people-grid {
+      display: grid;
+      gap: 1.25rem;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: 580px) {
+      .people-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 800px) {
+      .people-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .person { text-align: left; }
+    .person-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--c-soft), #95b4b5);
+      margin-bottom: 0.85rem;
+    }
+    .person-name { font-weight: 500; font-size: 0.95rem; color: var(--c-navy); letter-spacing: -0.015em; }
+    .person-role { font-size: 0.82rem; color: var(--c-text-muted); margin-top: 0.15rem; }
+    .person.advisor .person-role { color: var(--c-green); font-weight: 500; }
+
+    /* =========================================================
+       Newsletter CTA
+       ========================================================= */
+    .cta {
+      background: var(--c-teal);
+      color: var(--c-text-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 100%, rgba(74, 166, 127, 0.22), transparent 60%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .cta .eyebrow { color: var(--c-text-soft); margin-bottom: 1.5rem; justify-content: center; }
+    .cta .eyebrow::before { background: var(--c-text-soft); }
+    .cta h2 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      letter-spacing: -0.045em;
+      margin-bottom: 1.25rem;
+    }
+    .cta-sub {
+      color: rgba(246, 246, 246, 0.78);
+      font-size: 1.075rem;
+      line-height: 1.55;
+      max-width: 460px;
+      margin: 0 auto 2.5rem;
+      letter-spacing: -0.005em;
+    }
+
+    .nl-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    @media (min-width: 540px) {
+      .nl-form { flex-direction: row; }
+    }
+    .nl-input {
+      flex: 1;
+      padding: 0.95rem 1.25rem;
+      border-radius: 999px;
+      background: rgba(246, 246, 246, 0.08);
+      border: 1px solid rgba(187, 207, 208, 0.25);
+      color: var(--c-cream);
+      font-size: 0.93rem;
+      font-family: var(--font-body);
+      transition: border-color 0.25s ease, background 0.25s ease;
+      outline: none;
+    }
+    .nl-input::placeholder { color: rgba(187, 207, 208, 0.55); }
+    .nl-input:focus { border-color: var(--c-green); background: rgba(246, 246, 246, 0.12); }
+    .nl-submit {
+      background: var(--c-green);
+      color: var(--c-white);
+      padding: 0.95rem 1.75rem;
+      border-radius: 999px;
+      font-weight: 500;
+      font-size: 0.93rem;
+      transition: background 0.25s ease;
+    }
+    .nl-submit:hover { background: #5cb38c; }
+
+    .cta-secondary { margin-top: 2rem; font-size: 0.9rem; color: var(--c-text-soft); }
+    .cta-secondary a {
+      color: var(--c-cream);
+      border-bottom: 1px solid rgba(187, 207, 208, 0.4);
+      padding-bottom: 1px;
+      transition: border-color 0.2s ease;
+    }
+    .cta-secondary a:hover { border-color: var(--c-green); }
+
+    .nl-success {
+      margin-top: 1.5rem;
+      color: var(--c-green);
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .nl-success.show { opacity: 1; }
+
+    /* =========================================================
+       Footer
+       ========================================================= */
+    footer { background: var(--c-navy); color: var(--c-text-soft); padding: 4rem 0 2rem; }
+    .footer-top {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(187, 207, 208, 0.12);
+    }
+    @media (min-width: 760px) {
+      .footer-top { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+    }
+    .footer-brand .nav-logo { color: var(--c-cream); }
+    .footer-brand p {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      max-width: 28ch;
+      color: var(--c-text-soft);
+      opacity: 0.7;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-cream);
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col a {
+      font-size: 0.9rem;
+      color: var(--c-text-soft);
+      opacity: 0.75;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+    .footer-col a:hover { opacity: 1; color: var(--c-green); }
+
+    .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.02em;
+      color: var(--c-text-soft);
+      opacity: 0.6;
+    }
+    .socials { display: flex; gap: 1rem; }
+    .socials a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(187, 207, 208, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+      opacity: 1;
+    }
+    .socials a:hover {
+      border-color: var(--c-green);
+      background: rgba(74, 166, 127, 0.1);
+      color: var(--c-green);
+    }
+    .socials svg { width: 16px; height: 16px; }
+
+    /* =========================================================
+       Scroll-in animation
+       ========================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="nav" aria-label="Primary">
+      <div class="container nav-inner">
+        <a href="#" class="nav-logo" aria-label="Air2Energy home">Air2Energy</a>
+        <ul class="nav-links">
+          <li><a href="#technology">Technology</a></li>
+          <li><a href="#applications">Applications</a></li>
+          <li><a href="#story">Story</a></li>
+          <li><a href="#team">Team</a></li>
+        </ul>
+        <a href="#subscribe" class="btn btn-ghost-light nav-cta">Subscribe</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="container hero-inner">
+
+        <div class="hero-top">
+          <div class="eyebrow hero-eyebrow">
+            <span class="num">01</span>
+            <span>Decarbonising what can't be electrified</span>
+          </div>
+          <h1>
+            Turning pollution<br />
+            into <span class="accent">power.</span>
+          </h1>
+          <p class="hero-sub">
+            We retrofit an electrochemical system onto your existing gas boiler that captures
+            CO₂ from the exhaust and converts it into electricity.
+            No new equipment. No fuel change. No downtime.
+          </p>
+          <div class="hero-actions">
+            <a href="#subscribe" class="btn btn-primary">
+              Subscribe for updates
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M13 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="mailto:hello@air2energy.net" class="btn btn-ghost-light">Email the founders</a>
+          </div>
+        </div>
+
+        <div class="video-wrap">
+          <div class="video-frame" role="region" aria-label="Air2Energy technology explainer video">
+            <!--
+              REPLACE THIS BLOCK with your actual video embed.
+              Vimeo:   <iframe src="https://player.vimeo.com/video/XXXX" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%"></iframe>
+              YouTube: <iframe src="https://www.youtube.com/embed/XXXX" ...same styles...></iframe>
+              Self-hosted: <video src="..." poster="..." controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></video>
+            -->
+            <div class="video-content">
+              <span class="video-label">Watch the explainer</span>
+              <button class="play-button" aria-label="Play the technology explainer video">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M6 4l14 8-14 8V4z"/>
+                </svg>
+              </button>
+            </div>
+            <div class="video-watermark" aria-hidden="true">AE</div>
+          </div>
+          <div class="video-meta">
+            <span>How it works</span>
+            <span class="dot" aria-hidden="true"></span>
+            <span>Built with CSIRO ON Accelerate</span>
+            <span class="duration">2 min</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="partners" aria-label="Our partners and supporters">
+      <div class="container partners-inner">
+        <span class="partners-label">Backed by</span>
+        <span class="partner-logo">CSIRO</span>
+        <span class="partner-logo">ON Accelerate</span>
+        <span class="partner-logo">UTS</span>
+      </div>
+    </section>
+
+    <section class="section problem">
+      <div class="container">
+        <div class="problem-grid">
+          <div class="reveal">
+            <div class="eyebrow" style="color: var(--c-text-muted); margin-bottom: 1.5rem;">
+              <span class="num">02</span>
+              <span>The reality on the ground</span>
+            </div>
+            <h2>
+              You've been told to decarbonise.<br/>
+              You also need to <span class="green">keep running.</span>
+            </h2>
+            <p>
+              Your boilers don't switch off. Your building still has twenty years of operational
+              life. Your gas infrastructure is mission-critical. Most decarbonisation
+              paths force you to choose between hitting your targets and staying operational —
+              and the cost of doing nothing keeps climbing.
+            </p>
+            <p class="problem-emph">Air2Energy is the third path.</p>
+          </div>
+
+          <div class="stat-card reveal">
+            <div class="num">~30<span class="small">%</span></div>
+            <div class="label">
+              of global CO₂ comes from hard-to-abate sectors that can't fully electrify with
+              today's technology.
+            </div>
+            <div class="src">IEA · 2024</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section technology" id="technology">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">
+            <span class="num">03</span>
+            <span>The technology</span>
+          </div>
+          <h2>Exhaust becomes electricity.</h2>
+          <p class="lead">
+            A bolt-on electrochemical system that captures CO₂ from your gas boiler exhaust
+            and converts it directly into electricity — stored in a battery module that feeds
+            clean power back into your building.
+          </p>
+        </div>
+
+        <div class="steps">
+          <div class="step reveal">
+            <div class="step-num">01 · CAPTURE</div>
+            <h3>From the exhaust stream</h3>
+            <p>
+              Our capture array attaches to your existing boiler exhaust. No retrofits to the
+              combustion asset itself. No operational changes.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">02 · CONVERT</div>
+            <h3>CO₂ into stored energy</h3>
+            <p>
+              An electrochemical reaction converts captured CO₂ into electricity, stored in
+              our integrated battery module — designed for commercial building duty cycles.
+            </p>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">03 · POWER</div>
+            <h3>Back to your operation</h3>
+            <p>
+              Clean electricity feeds back into your building or the local grid, offsetting
+              energy costs and reducing your carbon footprint from day one.
+            </p>
+          </div>
+        </div>
+
+        <div class="schematic reveal">
+          <div class="schematic-label">Annotated system schematic</div>
+          <div class="schematic-note">To be added · diagram or short looping animation</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section applications" id="applications">
+      <div class="container">
+        <div class="applications-head reveal">
+          <div class="eyebrow" style="color: var(--c-text-muted);">
+            <span class="num">04</span>
+            <span>Where it works</span>
+          </div>
+          <h2>Built for buildings that run on gas.</h2>
+          <p>Commercial property groups and building owners are our primary market. If you operate gas boilers at scale, you're our customer — and the system retrofits onto the assets you already own.</p>
+        </div>
+
+        <div class="app-grid">
+          <div class="app-card reveal">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="18" rx="2"/>
+                <path d="M8 21V3"/>
+                <path d="M2 9h6"/>
+                <path d="M2 15h6"/>
+              </svg>
+            </div>
+            <h3>Commercial buildings</h3>
+            <p>Office towers, hotels, mixed-use developments. Retrofit onto existing gas boilers without disrupting building operations.</p>
+          </div>
+
+          <div class="app-card reveal">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 2c2 3 0 5 0 7s2 4 4 4-1-4 1-7c2 3 4 4 4 8a5 5 0 0 1-10 0c0-4 1-9 1-12z"/>
+              </svg>
+            </div>
+            <h3>Industrial heat</h3>
+            <p>Gas boilers, furnaces, process heat. Capture CO₂ from exhaust without changing your fuel source or process.</p>
+          </div>
+
+          <div class="app-card reveal">
+            <div class="app-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/>
+              </svg>
+            </div>
+            <h3>Generators</h3>
+            <p>Remote sites, mining, backup power, off-grid operations.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pilot" id="pilot">
+      <div class="container">
+        <div class="reveal">
+          <div class="eyebrow">
+            <span class="num">05</span>
+            <span>In the field</span>
+          </div>
+          <h2>Our first deployment.</h2>
+        </div>
+
+        <div class="pilot-grid">
+          <div class="pilot-image reveal">
+            <div>
+              Pilot site photograph<br/>
+              <span class="mono" style="opacity: 0.6; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;">System installed · customer team in frame</span>
+            </div>
+          </div>
+
+          <div class="pilot-content reveal">
+            <div class="pilot-meta">Live · [Pilot location]</div>
+            <h3>[Pilot partner name]</h3>
+            <p>
+              [Two sentences on the partner — what they operate, what asset we're capturing
+              from, what's being measured.] Over the next [duration], we are proving out
+              [specific metric] in real-world operating conditions.
+            </p>
+            <p>
+              Early signal: <span style="color: var(--c-green); font-weight: 500;">[insert headline number once cleared].</span>
+            </p>
+
+            <div class="pilot-quote">
+              <p class="quote-text">
+                "A two-sentence quote from the pilot partner. Specific, concrete, and ideally
+                tied to operational reality — what surprised them, what it could mean."
+              </p>
+              <p class="quote-attr">[NAME] · [ROLE] · [PILOT PARTNER ORGANISATION]</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-quotes">
+          <div class="mini-quote reveal">
+            <div class="qmark">"</div>
+            <p class="q-body">Short quote from an industry voice — operator, engineer, or technical advisor.</p>
+            <p class="q-attr">[NAME] · [ROLE]</p>
+          </div>
+          <div class="mini-quote reveal">
+            <div class="qmark">"</div>
+            <p class="q-body">Second short quote, ideally from a different stakeholder type — broadens the credibility surface.</p>
+            <p class="q-attr">[NAME] · [ROLE]</p>
+          </div>
+          <div class="mini-quote reveal">
+            <div class="qmark">"</div>
+            <p class="q-body">Third quote. Keep these tight — two sentences, plain language, no marketing-speak.</p>
+            <p class="q-attr">[NAME] · [ROLE]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section founders" id="story">
+      <div class="container">
+        <div class="founders-head reveal">
+          <div class="eyebrow" style="color: var(--c-text-muted);">
+            <span class="num">06</span>
+            <span>The founders</span>
+          </div>
+          <h2>Why we're building this.</h2>
+          <p>
+            [Opening paragraph of the origin story — the moment the cofounders saw the problem,
+            what they noticed that others didn't. Specific, first-person, plural. Write it the
+            way you'd tell it to someone over coffee, not the way you'd write it in a deck.]
+          </p>
+          <p>
+            [Second paragraph — what convinced them this was worth their careers, what they
+            believe the industry has gotten wrong, and what they're prepared to spend the next
+            decade doing.]
+          </p>
+          <p>We're young. We're scrappy. We get this built.</p>
+        </div>
+
+        <div class="founder-grid">
+          <div class="founder-card reveal">
+            <div class="founder-photo">Founder portrait</div>
+            <div class="founder-role">Co-founder &amp; CEO</div>
+            <h3>Andy Smithyman</h3>
+            <p class="founder-bio">
+              [One-paragraph bio. Lead with the specific thing that qualifies Andy to build this
+              company — the industry years, the technical depth, the firsthand experience with
+              the problem. Skip the generic accomplishments.]
+            </p>
+          </div>
+
+          <div class="founder-card reveal">
+            <div class="founder-photo">Founder portrait</div>
+            <div class="founder-role">Co-founder</div>
+            <h3>Kirah Godsell</h3>
+            <p class="founder-bio">
+              [One-paragraph bio. Lead with the specific thing that qualifies Kirah to build this
+              company — the technical depth, the domain expertise, the firsthand experience with
+              the problem. Skip the generic accomplishments.]
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section team" id="team">
+      <div class="container">
+        <div class="team-block reveal">
+          <div class="team-label">The team</div>
+          <div class="people-grid">
+            <div class="person">
+              <div class="person-photo"></div>
+              <div class="person-name">Georgia Dewar</div>
+              <div class="person-role">Engineering &amp; Product Design</div>
+            </div>
+            <div class="person">
+              <div class="person-photo"></div>
+              <div class="person-name">Myles Ford</div>
+              <div class="person-role">Technical &amp; Market Research</div>
+            </div>
+            <div class="person">
+              <div class="person-photo"></div>
+              <div class="person-name">[Team member]</div>
+              <div class="person-role">[Role]</div>
+            </div>
+            <div class="person">
+              <div class="person-photo"></div>
+              <div class="person-name">[Team member]</div>
+              <div class="person-role">[Role]</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-block reveal">
+          <div class="team-label">Advised by</div>
+          <div class="people-grid">
+            <div class="person advisor">
+              <div class="person-photo"></div>
+              <div class="person-name">Paul Brown</div>
+              <div class="person-role">UTS · Transdisciplinary Modelling</div>
+            </div>
+            <div class="person advisor">
+              <div class="person-photo"></div>
+              <div class="person-name">Qiang Fu</div>
+              <div class="person-role">Electrochemical Engineering</div>
+            </div>
+            <div class="person advisor">
+              <div class="person-photo"></div>
+              <div class="person-name">[Advisor]</div>
+              <div class="person-role">[Expertise]</div>
+            </div>
+            <div class="person advisor">
+              <div class="person-photo"></div>
+              <div class="person-name">[Advisor]</div>
+              <div class="person-role">[Expertise]</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta" id="subscribe">
+      <div class="container">
+        <div class="cta-inner">
+          <div class="eyebrow">
+            <span class="num">07</span>
+            <span>Stay close</span>
+          </div>
+          <h2>Watch us build.</h2>
+          <p class="cta-sub">
+            A short, monthly note from the founders — what we shipped, what we learned, what's
+            next. No marketing fluff. Built for investors, operators, and people who want to
+            be inside the build.
+          </p>
+
+          <form class="nl-form" id="nl-form" novalidate>
+            <input type="email" class="nl-input" placeholder="your@email.com" required aria-label="Email address" />
+            <button type="submit" class="nl-submit">Subscribe</button>
+          </form>
+          <p class="nl-success" id="nl-success">Thanks — we'll be in touch soon.</p>
+
+          <p class="cta-secondary">
+            Investor or potential pilot partner?
+            <a href="mailto:hello@air2energy.net">Email the founders directly</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo">Air2Energy</div>
+          <p>Turning pollution into power. Sydney, Australia.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#technology">Technology</a></li>
+            <li><a href="#applications">Applications</a></li>
+            <li><a href="#story">Story</a></li>
+            <li><a href="#team">Team</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#subscribe">Newsletter</a></li>
+            <li><a href="mailto:hello@air2energy.net">Email the founders</a></li>
+            <li><a href="#">Press &amp; media</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 AIR2ENERGY · ALL RIGHTS RESERVED</span>
+        <div class="socials">
+          <a href="#" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M19 3A2 2 0 0 1 21 5v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 18.34V10.5H5.67v7.84h2.67zm-1.33-8.84a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM18.34 18.34V13.7c0-2.5-1.34-3.66-3.13-3.66-1.44 0-2.09.8-2.45 1.35V10.5h-2.67c.04.76 0 7.84 0 7.84h2.67v-4.38c0-.24.02-.48.09-.65.2-.48.63-.97 1.37-.97.97 0 1.36.74 1.36 1.83v4.17h2.76z"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="X">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.5 3h3l-7 8 8 10h-6.5l-5-6.5L4 21H1l7.5-9L1 3h6.5l4.5 6L17.5 3z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || !els.length) {
+        els.forEach(function(el) { el.classList.add('visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+      els.forEach(function(el) { io.observe(el); });
+    })();
+
+    (function() {
+      var form = document.getElementById('nl-form');
+      var success = document.getElementById('nl-success');
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var input = form.querySelector('input[type=email]');
+        if (input && input.value && input.value.indexOf('@') > -1) {
+          input.value = '';
+          success.classList.add('show');
+          setTimeout(function() { success.classList.remove('show'); }, 4000);
+        }
+      });
+    })();
+
+    (function() {
+      var btn = document.querySelector('.play-button');
+      if (!btn) return;
+      btn.addEventListener('click', function() {
+        btn.style.transform = 'scale(0.95)';
+        setTimeout(function() { btn.style.transform = ''; }, 150);
+      });
+    })();
+  </script>
+
+</body>
+</html>
