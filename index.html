@@ -464,16 +464,16 @@
       .steps { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     }
     .step {
-      padding: 2rem 1.75rem 2.25rem;
+      padding: 2.5rem 2.25rem 2.75rem;
       border-radius: var(--radius);
-      background: rgba(246, 246, 246, 0.04);
-      border: 1px solid rgba(187, 207, 208, 0.15);
+      background: rgba(246, 246, 246, 0.11);
+      border: 1px solid rgba(187, 207, 208, 0.35);
       position: relative;
       transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
     }
     .step:hover {
-      border-color: rgba(74, 166, 127, 0.5);
-      background: rgba(246, 246, 246, 0.06);
+      border-color: rgba(74, 166, 127, 0.7);
+      background: rgba(246, 246, 246, 0.16);
       transform: translateY(-3px);
     }
     .step-num {
@@ -484,8 +484,8 @@
       color: var(--c-green);
       margin-bottom: 1.75rem;
     }
-    .step h3 { font-size: 1.45rem; margin-bottom: 0.75rem; }
-    .step p { color: var(--c-text-soft); font-size: 0.95rem; line-height: 1.6; }
+    .step h3 { font-size: 1.45rem; margin-bottom: 0.75rem; color: var(--c-white); }
+    .step p { color: rgba(246, 246, 246, 0.82); font-size: 0.95rem; line-height: 1.6; }
 
     .schematic {
       margin-top: 4rem;
@@ -1076,7 +1076,7 @@
 
         <div class="steps">
           <div class="step reveal">
-            <div class="step-num">01 · CAPTURE</div>
+            <div class="step-num">01 · FILTER</div>
             <h3>From the exhaust stream</h3>
             <p>
               Our capture array attaches to your existing boiler exhaust. No retrofits to the
