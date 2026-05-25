@@ -351,15 +351,15 @@
       color: var(--c-text-muted);
     }
     .partner-logo {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 1rem;
-      color: var(--c-navy);
-      opacity: 0.55;
-      letter-spacing: -0.02em;
+      height: 38px;
+      width: auto;
+      max-width: 130px;
+      object-fit: contain;
+      filter: grayscale(1);
+      opacity: 0.5;
       transition: opacity 0.2s ease;
     }
-    .partner-logo:hover { opacity: 0.9; }
+    .partner-logo:hover { opacity: 0.85; }
 
     /* =========================================================
        Problem section
@@ -1018,9 +1018,11 @@
     <section class="partners" aria-label="Our partners and supporters">
       <div class="container partners-inner">
         <span class="partners-label">Backed by</span>
-        <span class="partner-logo">CSIRO</span>
-        <span class="partner-logo">ON Accelerate</span>
-        <span class="partner-logo">UTS</span>
+        <img class="partner-logo" src="Logos/CSIRO%20Logo.png" alt="CSIRO" />
+        <img class="partner-logo" src="Logos/Energy%20Lab%20logo.png" alt="Energy Lab" />
+        <img class="partner-logo" src="Logos/OIO%20logo.webp" alt="OIO" />
+        <img class="partner-logo" src="Logos/UTS%20Logo.svg" alt="UTS" />
+        <img class="partner-logo" src="Logos/UTS%20Startups%20.png" alt="UTS Startups" />
       </div>
     </section>
 
