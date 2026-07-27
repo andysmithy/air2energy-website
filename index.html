@@ -432,10 +432,13 @@
        Technology section
        ========================================================= */
     .technology {
+      /* fallback colour behind the video, and while it loads */
       background: var(--c-teal);
       color: var(--c-text-light);
       position: relative;
       overflow: hidden;
+      /* opacity of the dark overlay between the video and the text (0-1) */
+      --tech-overlay-opacity: 0.55;
     }
     .technology::before {
       content: '';
@@ -447,6 +450,35 @@
       border-radius: 50%;
       background: radial-gradient(circle, rgba(74, 166, 127, 0.12), transparent 60%);
       pointer-events: none;
+      z-index: 0;
+    }
+    .technology-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .technology-video,
+    .technology-poster {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .technology-poster { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .technology-video { display: none; }
+      .technology-poster { display: block; }
+    }
+    .technology-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(4, 36, 32, var(--tech-overlay-opacity));
+      z-index: 1;
+    }
+    .technology .container {
+      position: relative;
+      z-index: 2;
     }
     .technology .eyebrow { color: var(--c-text-soft); }
     .technology h2 { max-width: 18ch; margin: 1.5rem 0 1rem; }
@@ -485,40 +517,6 @@
     }
     .step h3 { font-size: 1.45rem; margin-bottom: 0.75rem; color: var(--c-white); }
     .step p { color: rgba(246, 246, 246, 0.82); font-size: 0.95rem; line-height: 1.6; }
-
-    .schematic {
-      margin-top: 4rem;
-      aspect-ratio: 21 / 9;
-      width: 100%;
-      border-radius: var(--radius-lg);
-      background:
-        linear-gradient(135deg, rgba(74, 166, 127, 0.12), rgba(6, 73, 66, 0.5)),
-        repeating-linear-gradient(45deg, rgba(187, 207, 208, 0.04) 0 2px, transparent 2px 14px);
-      border: 1px solid rgba(187, 207, 208, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 0.5rem;
-      color: var(--c-text-soft);
-      font-size: 0.85rem;
-      text-align: center;
-      padding: 2rem;
-    }
-    .schematic .schematic-label {
-      font-family: var(--font-display);
-      font-weight: 500;
-      color: var(--c-cream);
-      font-size: 1rem;
-      letter-spacing: -0.02em;
-    }
-    .schematic .schematic-note {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(187, 207, 208, 0.5);
-    }
 
     /* =========================================================
        Applications
@@ -1049,6 +1047,13 @@
     </section>
 
     <section class="section technology" id="technology">
+      <div class="technology-media" aria-hidden="true">
+        <video class="technology-video" autoplay muted loop playsinline poster="video/technology-poster.jpg">
+          <source src="video/technology-loop.mp4" type="video/mp4" />
+        </video>
+        <img class="technology-poster" src="video/technology-poster.jpg" alt="" />
+      </div>
+      <div class="technology-overlay" aria-hidden="true"></div>
       <div class="container">
         <div class="reveal">
           <div class="eyebrow">
@@ -1080,11 +1085,6 @@
               The building is then given clean electricity to use however they want, ultimately reducing energy costs and Scope 1 emissions.
             </p>
           </div>
-        </div>
-
-        <div class="schematic reveal">
-          <div class="schematic-label">Annotated system schematic</div>
-          <img src="images/System.png" alt="Annotated Air2Energy system schematic" style="width:100%;display:block;margin-top:1.5rem;" />
         </div>
       </div>
     </section>
