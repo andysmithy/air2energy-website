@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Air2Energy | Dashboard sign in</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --c-teal: #064942; --c-green: #4AA67F; --c-soft: #BBCFD0;
+      --c-navy: #212631; --c-cream: #F6F6F6; --c-white: #FFFFFF; --c-text-muted: #5b6066;
+    }
+    body {
+      font-family: 'Geist', system-ui, sans-serif; color: var(--c-navy); background: var(--c-teal);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+    .box { width: 100%; max-width: 400px; background: var(--c-white); border-radius: 22px; padding: 2.25rem 2rem; }
+    .brand { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.03em; }
+    .brand span { color: var(--c-green); }
+    h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; margin: 1.5rem 0 0.4rem; }
+    p { color: var(--c-text-muted); font-size: 0.92rem; margin-bottom: 1.5rem; }
+    label { display: block; font-family: 'Geist Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-text-muted); margin-bottom: 0.4rem; }
+    input {
+      width: 100%; font: inherit; font-size: 1rem; padding: 0.75rem 0.9rem; margin-bottom: 1.1rem;
+      border: 1px solid rgba(33, 38, 49, 0.15); border-radius: 12px; background: var(--c-cream); color: var(--c-navy);
+    }
+    input:focus { outline: 2px solid var(--c-green); outline-offset: 1px; background: var(--c-white); }
+    button {
+      width: 100%; font: inherit; font-weight: 600; font-size: 1rem; padding: 0.85rem; border: none; border-radius: 999px;
+      background: var(--c-teal); color: var(--c-cream); cursor: pointer;
+    }
+    button:disabled { opacity: 0.6; cursor: wait; }
+    .error { color: #b3261e; font-size: 0.88rem; margin: -0.25rem 0 1rem; min-height: 1.2em; }
+    .foot { margin-top: 1.5rem; font-size: 0.8rem; color: var(--c-text-muted); text-align: center; }
+    .foot a { color: var(--c-teal); }
+  </style>
+</head>
+<body>
+  <form class="box" id="login" autocomplete="on">
+    <div class="brand">Air2Energy<span>.</span></div>
+    <h1>Customer dashboard</h1>
+    <p>This dashboard is private. Sign in with the details provided by the Air2Energy team.</p>
+    <label for="user">Username</label>
+    <input id="user" name="username" autocomplete="username" required />
+    <label for="pass">Password</label>
+    <input id="pass" name="password" type="password" autocomplete="current-password" required />
+    <div class="error" id="err" role="alert"></div>
+    <button id="go" type="submit">Sign in</button>
+    <div class="foot">Need access? <a href="mailto:andrewsmithyman@air2energy.net">Email the founders</a></div>
+  </form>
+
+  <script>
+    var PAYLOAD = /*PAYLOAD*/null;
+
+    function fromB64(s) { return Uint8Array.from(atob(s), function(c) { return c.charCodeAt(0); }); }
+
+    // Must match keyMaterial() in tools/build-dashboard.mjs
+    function keyMaterial(user, pass) { return user.trim().toLowerCase() + '\n' + pass; }
+
+    async function unlock(user, pass) {
+      var enc = new TextEncoder();
+      var base = await crypto.subtle.importKey('raw', enc.encode(keyMaterial(user, pass)), 'PBKDF2', false, ['deriveKey']);
+      var key = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: fromB64(PAYLOAD.salt), iterations: PAYLOAD.iter, hash: 'SHA-256' },
+        base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+      );
+      var plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB64(PAYLOAD.iv) }, key, fromB64(PAYLOAD.data));
+      return new TextDecoder().decode(plain);
+    }
+
+    document.getElementById('login').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      var btn = document.getElementById('go'), err = document.getElementById('err');
+      btn.disabled = true; btn.textContent = 'Checking…'; err.textContent = '';
+      try {
+        var html = await unlock(document.getElementById('user').value, document.getElementById('pass').value);
+        document.open(); document.write(html); document.close();
+      } catch (_) {
+        err.textContent = 'That username or password is incorrect.';
+        btn.disabled = false; btn.textContent = 'Sign in';
+      }
+    });
+  </script>
+</body>
+</html>

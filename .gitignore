@@ -1,0 +1,4 @@
+.DS_Store
+.claude/
+# Readable dashboard source: never publish (repo is public)
+dashboard-src/
