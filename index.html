@@ -612,6 +612,47 @@
       border: 1px solid rgba(187, 207, 208, 0.18);
       margin-top: 2rem;
     }
+    .proto-top {
+      display: grid;
+      gap: clamp(1.5rem, 4vw, 4rem);
+      grid-template-columns: 1fr;
+      align-items: start;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+    @media (min-width: 880px) {
+      .proto-top { grid-template-columns: 1fr 1fr; }
+    }
+    .proto-top .eyebrow { color: var(--c-text-soft); margin-bottom: 1.5rem; }
+    .proto-top h2 { max-width: 14ch; }
+    .proto-top .pilot-content p:last-child { margin-bottom: 0; }
+
+    .proto-photos {
+      display: grid;
+      gap: clamp(1rem, 2vw, 1.5rem);
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px) {
+      .proto-photos { grid-template-columns: 1fr 1fr; }
+    }
+    .proto-photos figure { margin: 0; }
+    .proto-photos img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(187, 207, 208, 0.18);
+    }
+    .proto-photos figcaption {
+      margin-top: 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-text-soft);
+    }
+    .proto-photos figcaption span { color: var(--c-green); margin-right: 0.6rem; }
+
     .pilot-content .pilot-meta {
       font-family: var(--font-mono);
       font-size: 0.7rem;
@@ -1165,21 +1206,31 @@
 
     <section class="section pilot" id="prototype">
       <div class="container">
-        <div class="eyebrow reveal">
-          <span class="num">05</span>
-          <span>In the field</span>
-        </div>
-        <h2 class="reveal">Our field prototype is operational.</h2>
-
-        <div class="pilot-grid">
-          <img class="pilot-image reveal" src="images/field-prototype.jpg" alt="Air2Energy's field prototype installed outdoors in front of the UTS tower" loading="lazy" />
+        <div class="proto-top">
+          <div class="reveal">
+            <div class="eyebrow">
+              <span class="num">05</span>
+              <span>In the field</span>
+            </div>
+            <h2>Our field prototype is operational.</h2>
+          </div>
           <div class="pilot-content reveal">
             <div class="pilot-meta">Operational field prototype</div>
             <h3>Out of the lab and running in the real world.</h3>
             <p>Our field prototype is now installed and operating on site at UTS. It's the first time Air2Energy's technology has run outside the lab, under real-world conditions.</p>
             <p>Every hour it runs gives us live performance data that feeds straight back into our design, bringing us one step closer to our first commercial pilots.</p>
-            <img class="pilot-image-small" src="images/field-prototype-rooftop.jpg" alt="Air2Energy's field prototype on a UTS rooftop, with the Sydney skyline behind" loading="lazy" />
           </div>
+        </div>
+
+        <div class="proto-photos">
+          <figure class="reveal">
+            <img src="images/field-prototype.jpg" alt="Air2Energy's field prototype installed outdoors in front of the UTS tower" loading="lazy" style="object-position: 50% 100%;" />
+            <figcaption><span>01</span> The prototype on site at UTS</figcaption>
+          </figure>
+          <figure class="reveal">
+            <img src="images/field-prototype-rooftop.jpg" alt="Air2Energy's field prototype on a UTS rooftop, with the Sydney skyline behind" loading="lazy" style="object-position: 50% 84%;" />
+            <figcaption><span>02</span> Rooftop installation</figcaption>
+          </figure>
         </div>
       </div>
     </section>
