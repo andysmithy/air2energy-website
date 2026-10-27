@@ -601,6 +601,17 @@
       padding: 0;
       background: none;
     }
+    .pilot-image-small {
+      display: block;
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: 50% 88%;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(187, 207, 208, 0.18);
+      margin-top: 2rem;
+    }
     .pilot-content .pilot-meta {
       font-family: var(--font-mono);
       font-size: 0.7rem;
@@ -1167,6 +1178,7 @@
             <h3>Out of the lab and running in the real world.</h3>
             <p>Our field prototype is now installed and operating on site at UTS. It's the first time Air2Energy's technology has run outside the lab, under real-world conditions.</p>
             <p>Every hour it runs gives us live performance data that feeds straight back into our design, bringing us one step closer to our first commercial pilots.</p>
+            <img class="pilot-image-small" src="images/field-prototype-rooftop.jpg" alt="Air2Energy's field prototype on a UTS rooftop, with the Sydney skyline behind" loading="lazy" />
           </div>
         </div>
       </div>
