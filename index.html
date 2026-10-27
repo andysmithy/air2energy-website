@@ -689,8 +689,16 @@
       width: 100%;
       max-width: 800px;
       height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      object-position: 50% 100%;
+      border-radius: var(--radius-lg);
       margin: 3rem auto 0;
     }
+
+    .team-intro { margin-top: clamp(3rem, 6vw, 5rem); }
+    .team-intro h3 { color: var(--c-navy); margin-bottom: 1.25rem; }
+    .team-intro p { color: var(--c-text-muted); line-height: 1.7; margin-bottom: 1rem; max-width: 75ch; }
 
     .founder-grid {
       display: grid;
@@ -1193,7 +1201,7 @@
           </div>
         </div>
 
-        <div class="reveal">
+        <div class="team-intro reveal">
           <h3>Meet the team:</h3>
           <p>With two UTS advisors, Paul Brown and Qiang Fu, guiding us, Air2Energy has the opportunity to gain valuable knowledge and learn from their experience to best ensure the prosperity of the business.</p>
           <p>Through participation in the CSIRO ON Accelerate program, the team was also given access to Paul Butler, an advisor with an expansive background in electrical engineering, VC and CEO experience. He provided the team with copious amounts of wisdom and guidance, and successfully led them to graduating the ON Accelerate program.</p>
