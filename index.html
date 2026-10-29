@@ -750,9 +750,58 @@
       margin: 3rem auto 0;
     }
 
-    .team-intro { margin-top: clamp(3rem, 6vw, 5rem); }
-    .team-intro h3 { color: var(--c-navy); margin-bottom: 1.25rem; }
-    .team-intro p { color: var(--c-text-muted); line-height: 1.7; margin-bottom: 1rem; max-width: 75ch; }
+    .tier { margin-top: clamp(3rem, 6vw, 4.5rem); }
+    .tier-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--c-text-muted);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(33, 38, 49, 0.1);
+    }
+    .tier h4 { color: var(--c-navy); margin-bottom: 0.6rem; }
+    .tier p { color: var(--c-text-muted); font-size: 0.92rem; line-height: 1.6; }
+
+    .staff-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+    @media (min-width: 760px) { .staff-grid { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+    .staff-card {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      background: var(--c-white);
+      border: 1px solid rgba(33, 38, 49, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .staff-photo {
+      flex: 0 0 auto;
+      width: clamp(96px, 12vw, 140px);
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: var(--radius);
+    }
+
+    .advisor-grid { display: grid; gap: 1.25rem; grid-template-columns: 1fr 1fr; }
+    @media (min-width: 980px) { .advisor-grid { grid-template-columns: repeat(4, 1fr); } }
+    .advisor-card {
+      background: var(--c-white);
+      border: 1px solid rgba(33, 38, 49, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+    }
+    .advisor-card img {
+      width: 88px; height: 88px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin: 0 auto 1rem;
+    }
+    .advisor-card h4 { font-size: 1rem; }
+    .advisor-card p { font-size: 0.85rem; }
+    @media (max-width: 479px) {
+      .staff-card { flex-direction: column; }
+      .advisor-grid { grid-template-columns: 1fr; }
+    }
 
     .founder-grid {
       display: grid;
@@ -1242,36 +1291,80 @@
         <div class="founders-head reveal">
           <div class="eyebrow" style="color: var(--c-text-muted);">
             <span class="num">06</span>
-            <span>The founders</span>
+            <span>Our team</span>
           </div>
         </div>
 
         <div class="founder-grid">
           <div class="founder-card reveal">
             <div class="founder-photo"><img src="headshots/AndyHeadshot.jpg" alt="Andrew Smithyman" style="object-position: 50% 70%;" /></div>
-            <div class="founder-role">Co-founder &amp; Co-CEO</div>
+            <div class="founder-role">CEO &amp; Founder</div>
             <h3>Andrew Smithyman</h3>
             <p class="founder-bio">
-              Backed by degrees in Business (Finance) and Sustainability and Environment at UTS, coupled with a Diploma in Innovation, Andrew was driven to create Air2Energy to make decarbonisation profitable and build a sustainable solution to the global pollution problem. With experience running ventures across industries from aquaculture to biotech, together with his proficiency in pitching and running a startup, Andrew is well-versed in the business world and drives the company forward towards success.
+              Andrew brings a background in business and sustainability management, with experience at Deloitte in energy systems design. He leads Air2Energy's customer and market outreach, business development and finance.
             </p>
           </div>
 
           <div class="founder-card reveal">
             <div class="founder-photo"><img src="headshots/KirahHeadshot.jpg" alt="Kirah Godsell" style="object-position: 50% 68%;" /></div>
-            <div class="founder-role">Co-founder &amp; Co-CEO</div>
+            <div class="founder-role">CTO &amp; Founder</div>
             <h3>Kirah Godsell</h3>
             <p class="founder-bio">
-              With an extensive background in Advanced Science and a Diploma in Innovation, Kirah provides Air2Energy with a technical foundation and an understanding of the clear gap in the market for decarbonisation systems that are currently failing at an electrochemical level. Sustainability and systems complexity are at the forefront of her abilities, giving the team a sophisticated advantage as a startup creating an innovative yet green solution.
+              Kirah brings a background in advanced science and innovation, with research experience at UTS and the University of Sydney and years in management roles. She leads Air2Energy's technical development, intellectual property and team growth.
             </p>
           </div>
         </div>
 
-        <div class="team-intro reveal" id="team">
-          <h3>Meet the team:</h3>
-          <p>With two UTS advisors, Paul Brown and Qiang Fu, guiding us, Air2Energy has the opportunity to gain valuable knowledge and learn from their experience to best ensure the prosperity of the business.</p>
-          <p>Through participation in the CSIRO ON Accelerate program, the team was also given access to Paul Butler, an advisor with an expansive background in electrical engineering, VC and CEO experience. He provided the team with copious amounts of wisdom and guidance, and successfully led them to graduate from the ON Accelerate program. Air2Energy has also welcomed Alex Dronoff to its advisory board, bringing many years of experience in the oil and gas sector to the team.</p>
-          <p>Starting as an intern in early 2026, Georgia Dewar has a background in Product Design with strong skills in innovation and critical thinking, which has assisted the company in its initial product designs and creative ideation. As a current university student, her involvement in the company has been valuable while also allowing her to expand her knowledge and skills in product design.</p>
-          <p>Andrew Coorey is the lead engineer at Air2Energy, with an advanced background in mechatronics and mechanical engineering. Through his vast experience and valuable insight, he has skilfully led the design and development of our product and assisted in the chemical configuration of the internal designs.</p>
+        <div class="tier" id="team">
+          <div class="tier-label reveal">Team</div>
+          <div class="staff-grid">
+            <div class="staff-card reveal">
+              <img class="staff-photo" src="headshots/AndrewCoorey.jpg" alt="Andrew Coorey" loading="lazy" style="object-position: 50% 25%;" />
+              <div>
+                <div class="founder-role">Lead Engineer</div>
+                <h4>Andrew Coorey</h4>
+                <p>Andrew brings experience in design for manufacturing at Tanis, along with freelance engineering work. He leads Air2Energy's engineering internship program.</p>
+              </div>
+            </div>
+            <div class="staff-card reveal">
+              <img class="staff-photo" src="headshots/GeorgiaDewar.jpg" alt="Georgia Dewar" loading="lazy" />
+              <div>
+                <div class="founder-role">Product Designer</div>
+                <h4>Georgia Dewar</h4>
+                <p>Georgia supports Andrew with 3D modelling and design work, and manages the company's visual branding and website.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tier">
+          <div class="tier-label reveal">Advisors</div>
+          <div class="advisor-grid">
+            <div class="advisor-card reveal">
+              <img src="headshots/AlexDronoff.jpg" alt="Alex Dronoff" loading="lazy" />
+              <div class="founder-role">Advisor</div>
+              <h4>Alex Dronoff</h4>
+              <p>Chemical engineer with experience at Shell, ELGAS, BOC and Fichtner, and in renewable energy enterprise, business development and as a CEO.</p>
+            </div>
+            <div class="advisor-card reveal">
+              <img src="headshots/QiangFu.jpg" alt="Qiang Fu" loading="lazy" />
+              <div class="founder-role">Advisor</div>
+              <h4>A/Prof. Qiang Fu</h4>
+              <p>World-recognised chemical engineer specialising in membrane technology, and sustainable solutions for energy and the environment.</p>
+            </div>
+            <div class="advisor-card reveal">
+              <img src="headshots/PaulBrown.jpg" alt="Paul Brown" loading="lazy" />
+              <div class="founder-role">Advisor</div>
+              <h4>A/Prof. Paul Brown</h4>
+              <p>Expert in production economics and innovation systems, with experience in carbon modelling and circular economies.</p>
+            </div>
+            <div class="advisor-card reveal">
+              <img src="headshots/PaulButler.jpg" alt="Paul Butler" loading="lazy" />
+              <div class="founder-role">CSIRO coach</div>
+              <h4>Paul Butler</h4>
+              <p>Advisor and mentor, and an experienced investor and CEO in mining.</p>
+            </div>
+          </div>
         </div>
 
         <img class="team-photo" src="images/team-photo.jpg" alt="The Air2Energy team standing together" loading="lazy" />
